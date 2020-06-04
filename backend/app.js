@@ -1,6 +1,9 @@
 const express = require('express');
 const app  = express();
 const {getDoctors} = require('./controllers/doctors')
+const cors = require('cors');
+
+app.use(cors());
 
 app.use('/getDoctors', async (req, res) => {
   output = await getDoctors(req)
@@ -9,4 +12,4 @@ app.use('/getDoctors', async (req, res) => {
 
 app.use('/', (req, res) => res.send('Hello World!'))
 
-app.listen(3000, () => console.log(`Example app listening at http://localhost:3000`))
+app.listen(8080, () => console.log(`Example app listening at http://localhost:8080`))

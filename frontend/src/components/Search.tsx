@@ -1,4 +1,5 @@
 import React from "react";
+import GetDoctorsService from "../api/GetDoctorsService";
 
 export class SearchForm extends React.Component<any,any> {
   constructor(props:any) {
@@ -6,26 +7,34 @@ export class SearchForm extends React.Component<any,any> {
     this.state = {value: '', apiResponse: ''};
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.searchDoctors = this.searchDoctors.bind(this);
   }
 
   handleChange(event:any) {
     this.setState({value: event.target.value});
   }
 
-  async handleSubmit(event:any) {
-  }
+  async searchDoctors() {
+    GetDoctorsService.getDoctors()
+                .then((res:any) => {
+                  debugger;
+                  this.setState({ apiResponse: `${res.data}` })
+
+                }
+                ).catch((err:any) => {
+                  debugger;
+                  
+                })
+              }
 
   render() {
     return (
-      <div>Find a GP
-        <form onSubmit={this.handleSubmit}>
+      <div>
           <label>
             Enter a postcode:
             <input type="text" value={this.state.value} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" />
-        </form>
+          <input type="submit" value="Submit" onClick={this.searchDoctors} />
         {this.state.apiResponse}
       </div>
     );
