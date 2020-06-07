@@ -1,4 +1,5 @@
 import React from "react";
+import SendEmailService from "../api/SendEmailService";
 
 interface IParentProps {
 	hideAppointmentModal:() => any
@@ -7,19 +8,28 @@ interface IParentProps {
 export class AppointmentModal extends React.Component<IParentProps,any> {
   constructor(props:any) {
     super(props);
-    this.state = {email:'', name:'', bookingTime:''}
+    this.state = {email:'', name:'', bookingTime:'', isAppointmentSent:''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.bookAppointment = this.bookAppointment.bind(this);
   }
 
-  handleEmailChange(event:any) {
-    this.setState({email: event.target.value});
+  handleChange(event:any) {
+    const value = event.target.value;
+    this.setState({
+      ...this.state,
+      [event.target.name]: value
+    });
   }
 
-  handleNameChange(event:any) {
-    this.setState({name: event.target.value});
-  }
-
-  handleBookingChange(event:any) {
-    this.setState({bookingTime: event.target.value});
+  bookAppointment(){
+    SendEmailService.sendEmail(this.state.email, this.state.name, this.state.bookingTime)
+      .then((res:any) => {
+        this.setState({ isAppointmentSent: res.data })
+      }
+      ).catch((err:any) => {
+        
+      })
   }
 
   render() {
@@ -27,13 +37,13 @@ export class AppointmentModal extends React.Component<IParentProps,any> {
       <div>
         Enter your details
         Email
-        <input value={this.state.email}/>
+        <input value={this.state.email} onChange={this.handleChange} name="email"/>
         Name
-        <input value={this.state.name}/>
+        <input value={this.state.name} onChange={this.handleChange} name="name"/>
         Booking Time
-        <input value={this.state.bookingTime}/>
+        <input value={this.state.bookingTime} onChange={this.handleChange} name="bookingTime"/>
 
-        <button onClick={undefined}>Confirm Appointment</button>
+        <button onClick={this.bookAppointment}>Confirm Appointment</button>
         <button onClick={this.props.hideAppointmentModal}>Cancel</button>
       </div>
     );

@@ -1,6 +1,7 @@
 const express = require('express');
 const app  = express();
 const {getDoctors} = require('./controllers/doctors')
+const {sendEmail} = require('./mailer/Mailer')
 const cors = require('cors');
 
 app.use(cors());
@@ -9,6 +10,12 @@ app.use('/getDoctors', async (req, res) => {
   output = await getDoctors(req)
   return res.json(output)
 })
+
+app.use('/sendEmail', async (req, res) => {
+  output = await sendEmail(req)
+  return res.json(output)
+})
+
 
 app.use('/', (req, res) => res.send('Hello World!'))
 
