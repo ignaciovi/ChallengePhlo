@@ -19,7 +19,8 @@ const calculateDistance = (lat1, lon1, lat2, lon2, unit) => {
 		dist = dist * 180/Math.PI;
 		dist = dist * 60 * 1.1515;
 		if (unit=="K") { dist = dist * 1.609344 }
-		if (unit=="N") { dist = dist * 0.8684 }
+    if (unit=="N") { dist = dist * 0.8684 }
+    dist = Math.floor(dist)
 		return dist;
 	}
 }

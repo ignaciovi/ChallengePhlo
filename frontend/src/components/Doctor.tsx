@@ -1,8 +1,19 @@
 import React from "react";
 import { AppointmentModal } from "./AppointmentModal";
 
-export class Doctor extends React.Component<any,any> {
-  constructor(props:any) {
+interface IStateProps {
+  isModalShown:boolean
+}
+
+interface IParentProps {
+  distance:number
+  id:number
+  postcode:string
+  name:string
+}
+
+export class Doctor extends React.Component<IParentProps,IStateProps> {
+  constructor(props:IParentProps) {
     super(props);
     this.state = { isModalShown: false };
     this.displayAppointmentModal = this.displayAppointmentModal.bind(this);
@@ -19,7 +30,7 @@ export class Doctor extends React.Component<any,any> {
 
   render() {
     return (
-      <div>
+      <div key={this.props.id}>
         {this.props.name}
         {this.props.postcode}
         {this.props.distance}
@@ -28,8 +39,6 @@ export class Doctor extends React.Component<any,any> {
         {this.state.isModalShown && 
         <AppointmentModal 
         hideAppointmentModal = {this.hideAppointmentModal}/>}
-
-        
       </div>
     );
   }

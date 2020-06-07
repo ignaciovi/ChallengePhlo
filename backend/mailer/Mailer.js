@@ -24,12 +24,11 @@ const sendEmail = async (req) => {
   transport.sendMail(message, function(err, info) {
     if (err) {
       console.log(err)
-    } else {
-      console.log(info);
+      return err.message
     }
+    console.log('Message sent: %s', info.messageId);
   });
-
-  return "True"
+  return "Success"
 }
 
 module.exports = {

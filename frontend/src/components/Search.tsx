@@ -2,7 +2,19 @@ import React from "react";
 import GetDoctorsService from "../api/GetDoctorsService";
 import { Doctor } from "./Doctor";
 
-export class SearchForm extends React.Component<any,any> {
+interface IStateProps {
+  apiResponse:DoctorInterface[]
+  postcode:string
+}
+
+interface DoctorInterface {
+  distance:number
+  id:number
+  postcode:string
+  name:string
+}
+
+export class SearchForm extends React.Component<{},IStateProps> {
   constructor(props:any) {
     super(props);
     this.state = {postcode: '', apiResponse: []};
@@ -17,14 +29,13 @@ export class SearchForm extends React.Component<any,any> {
 
   async searchDoctors() {
     GetDoctorsService.getDoctors(this.state.postcode)
-                .then((res:any) => {
-                  this.setState({ apiResponse: res.data })
-
-                }
-                ).catch((err:any) => {
-                  
-                })
-              }
+      .then((res:any) => {
+        this.setState({ apiResponse: res.data })
+      })
+      .catch((err:any) => {
+        console.log(err)
+      })
+    }
 
   render() {
     return (
@@ -36,6 +47,7 @@ export class SearchForm extends React.Component<any,any> {
           <input type="submit" value="Submit" onClick={this.searchDoctors} />
         {this.state.apiResponse.map((doctor:any) =>
           <Doctor 
+            id = {doctor.id}
             name = {doctor.name}
             postcode = {doctor.postcode}
             distance = {doctor.distance} />

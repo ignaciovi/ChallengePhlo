@@ -3,10 +3,8 @@ import axios from 'axios'
 class GetDoctorsService {
 
     async getDoctors(postcode:string) {
-      let test
       try {
-        test = await axios.get(`http://localhost:8080/getDoctors?postcode=${postcode}`);
-        return test
+        return await axios.get(`http://localhost:8080/getDoctors?postcode=${postcode}`);
       } catch (error) {
         console.log(error)
       }
