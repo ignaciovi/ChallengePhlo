@@ -10,15 +10,17 @@ interface IStateProps {
   name:string
   bookingTime:string
   emailResponse:string
+  validationMessage:string
 }
 
 export class AppointmentModal extends React.Component<IParentProps,IStateProps> {
   constructor(props:IParentProps) {
     super(props);
-    this.state = {email:'', name:'', bookingTime:'', emailResponse:''};
+    this.state = {email:'', name:'', bookingTime:'', emailResponse:'', validationMessage:''};
 
     this.handleChange = this.handleChange.bind(this);
     this.bookAppointment = this.bookAppointment.bind(this);
+    this.validateDetails = this.validateDetails.bind(this);
   }
 
   handleChange(event:any) {
@@ -27,6 +29,14 @@ export class AppointmentModal extends React.Component<IParentProps,IStateProps> 
       ...this.state,
       [event.target.name]: value
     });
+  }
+
+  async validateDetails(){
+    if(this.state.email === '' || this.state.name === '' ||  this.state.bookingTime === '') {
+      this.setState({ validationMessage: 'Please enter all details' })
+    } else {
+      this.bookAppointment()
+    }
   }
 
   async bookAppointment(){
@@ -55,7 +65,7 @@ export class AppointmentModal extends React.Component<IParentProps,IStateProps> 
         Booking Time
         <input value={this.state.bookingTime} onChange={this.handleChange} name="bookingTime"/>
 
-        <button onClick={this.bookAppointment}>Confirm Appointment</button>
+        <button onClick={this.validateDetails}>Confirm Appointment</button>
         <button onClick={this.props.hideAppointmentModal}>Cancel</button>
         </div>}
         { emailSent &&
@@ -64,6 +74,7 @@ export class AppointmentModal extends React.Component<IParentProps,IStateProps> 
         { emailError &&
         <div>{this.state.emailResponse}</div>
         }
+        {this.state.validationMessage}
       </div>
     );
   }
