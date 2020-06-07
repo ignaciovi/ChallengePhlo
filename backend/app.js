@@ -20,3 +20,5 @@ app.use('/sendEmail', async (req, res) => {
 app.use('/health', (req, res) => res.send('Server running OK'))
 
 app.listen(8080, () => console.log(`Example app listening at http://localhost:8080`))
+
+module.exports = app;
