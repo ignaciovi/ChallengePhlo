@@ -9,13 +9,13 @@ interface IStateProps {
   email:string
   name:string
   bookingTime:string
-  isAppointmentSent:string
+  emailResponse:string
 }
 
 export class AppointmentModal extends React.Component<IParentProps,IStateProps> {
   constructor(props:IParentProps) {
     super(props);
-    this.state = {email:'', name:'', bookingTime:'', isAppointmentSent:''};
+    this.state = {email:'', name:'', bookingTime:'', emailResponse:''};
 
     this.handleChange = this.handleChange.bind(this);
     this.bookAppointment = this.bookAppointment.bind(this);
@@ -29,19 +29,24 @@ export class AppointmentModal extends React.Component<IParentProps,IStateProps> 
     });
   }
 
-  bookAppointment(){
+  async bookAppointment(){
     SendEmailService.sendEmail(this.state.email, this.state.name, this.state.bookingTime)
       .then((res:any) => {
-        this.setState({ isAppointmentSent: res.data })
-      }
-      ).catch((err:any) => {
-        
+        this.setState({ emailResponse: res })
+      })
+      .catch((err:any) => {
+        console.log(err) 
       })
   }
 
   render() {
+    let initialScreen = this.state.emailResponse === '';
+    let emailSent = this.state.emailResponse === 'Success';
+    let emailError = !initialScreen && !emailSent;
     return (
       <div>
+        { initialScreen &&
+        <div>
         Enter your details
         Email
         <input value={this.state.email} onChange={this.handleChange} name="email"/>
@@ -52,6 +57,13 @@ export class AppointmentModal extends React.Component<IParentProps,IStateProps> 
 
         <button onClick={this.bookAppointment}>Confirm Appointment</button>
         <button onClick={this.props.hideAppointmentModal}>Cancel</button>
+        </div>}
+        { emailSent &&
+        <div>An email has been sent to {this.state.email} with your appointment details</div>
+        }
+        { emailError &&
+        <div>{this.state.emailResponse}</div>
+        }
       </div>
     );
   }

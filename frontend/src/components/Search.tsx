@@ -29,14 +29,13 @@ export class SearchForm extends React.Component<{},IStateProps> {
 
   async searchDoctors() {
     GetDoctorsService.getDoctors(this.state.postcode)
-                .then((res:any) => {
-                  this.setState({ apiResponse: res.data })
-
-                }
-                ).catch((err:any) => {
-                  
-                })
-              }
+      .then((res:any) => {
+        this.setState({ apiResponse: res.data })
+      })
+      .catch((err:any) => {
+        console.log(err)
+      })
+    }
 
   render() {
     return (

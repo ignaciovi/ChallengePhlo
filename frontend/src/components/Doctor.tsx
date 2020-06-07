@@ -39,8 +39,6 @@ export class Doctor extends React.Component<IParentProps,IStateProps> {
         {this.state.isModalShown && 
         <AppointmentModal 
         hideAppointmentModal = {this.hideAppointmentModal}/>}
-
-        
       </div>
     );
   }
