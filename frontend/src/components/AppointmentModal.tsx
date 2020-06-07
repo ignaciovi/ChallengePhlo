@@ -5,8 +5,15 @@ interface IParentProps {
 	hideAppointmentModal:() => any
 }
 
-export class AppointmentModal extends React.Component<IParentProps,any> {
-  constructor(props:any) {
+interface IStateProps {
+  email:string
+  name:string
+  bookingTime:string
+  isAppointmentSent:string
+}
+
+export class AppointmentModal extends React.Component<IParentProps,IStateProps> {
+  constructor(props:IParentProps) {
     super(props);
     this.state = {email:'', name:'', bookingTime:'', isAppointmentSent:''};
 
