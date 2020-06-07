@@ -2,9 +2,9 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async (req) => {
 
-  const email = req.query.email
-  const name = req.query.name
-  const appointmentTime = req.query.appointmentTime
+  let {email,
+  name,
+  appointmentTime} = req.body;
 
   let transport = nodemailer.createTransport({
     host: 'smtp.mailtrap.io',

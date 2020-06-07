@@ -3,7 +3,7 @@ import axios from 'axios'
 class SendEmailService {
 
   async sendEmail(email:string, name:string, appointmentTime:string) {
-      return axios.get(`http://localhost:8080/sendEmail?email=${email}&name=${name}&appointmentTime=${appointmentTime}`)
+      return axios.post(`http://localhost:8080/sendEmail`, {email, name, appointmentTime})
       .then((res) => {
         console.log(res)
         return res.data})
